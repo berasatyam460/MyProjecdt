@@ -32,6 +32,19 @@ public class PlayerMovement : MonoBehaviour
 
   }
 
+  private void FixedUpdate() {
+    CollisionChecks();
+    if(isGrounded){
+
+      Move(moveStats.groundAcceleration,moveStats.groundDeceleration,InputManager.movement);
+    
+    }else{
+
+      Move(moveStats.airAcceleration,moveStats.airDeceleration,InputManager.movement);
+
+    }
+  }
+
   #region Movement
 
   private void Move(float acceleration,float deceleration,Vector2 moveInput){
@@ -51,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
        playerRB.velocity=new Vector2(moveVelocity.x,playerRB.velocity.y);
 
     }else if(moveInput==Vector2.zero){
-      moveVelocity=Vector2.Lerp(moveVelocity,Vector2.zero,deceleration*Time.deltaTime);
+      moveVelocity=Vector2.Lerp(moveVelocity,Vector2.zero,deceleration*Time.fixedDeltaTime);
       playerRB.velocity=new Vector2(moveVelocity.x,playerRB.velocity.y);
     }
   }
@@ -59,25 +72,69 @@ public class PlayerMovement : MonoBehaviour
 
 
 #region TurnChecking
-private void TurnCheck(Vector2 moveInput){
-  if(isFacingRight&&moveInput.x<0){
-      Turn(false);
-  }
-  else if(!isFacingRight&&moveInput.x>0){
-      Turn(true);
-  }
-}
+   private void TurnCheck(Vector2 moveInput)
+    {
+        if (isFacingRight && moveInput.x < 0)
+        {
+            Turn(false);
+           // camerasmooth.callTurn();
+        }else if(!isFacingRight && moveInput.x > 0)
+        {
+            Turn(true);
+           // camerasmooth.callTurn();
+        }
+    }
 
-private void Turn(bool isTurnRight){
-  if(isTurnRight){
-    isFacingRight=true;
-    transform.Rotate(0f,100f,0f);
-  }else{
-    isFacingRight=false;
-    transform.Rotate(0f,-100f,0f);
-  }
-}
+    private void Turn(bool TurnRight)
+    {
+        if (TurnRight)
+        {
+            isFacingRight = true;
+            transform.Rotate(0f, 180f, 0f);
+        }
+        else
+        {
+            isFacingRight = false;
+            transform.Rotate(0f, -180f, 0f);
+        }
+       
+    }
 #endregion
 //collision check
+#region Collision Checks
 
+private void CollisionChecks(){
+  IsGroundedCheck();
+}
+public void IsGroundedCheck(){
+  Vector2 boxCastOrigin=new Vector2(feetCol.bounds.center.x,feetCol.bounds.min.y);
+  Vector2 boxCastSize=new Vector2(feetCol.bounds.size.x,moveStats.groundDetectionRayLength);
+  
+  //calculate
+  groundHit=Physics2D.BoxCast(boxCastOrigin,boxCastSize,0f,Vector2.down,moveStats.groundDetectionRayLength,moveStats.GroundLayer);
+  if(groundHit.collider!=null){
+    isGrounded=true;
+
+  }else{
+    isGrounded=false;
+  }
+
+  #region Debug Visualization
+  if(moveStats.debugShowIsGroundedBox){
+    Color rayColor;
+    if(isGrounded){
+      rayColor=Color.green;
+    }else{
+      rayColor=Color.red;
+    }
+    
+    Debug.DrawRay(new Vector2(boxCastOrigin.x-boxCastSize.x/2,boxCastOrigin.y),Vector2.down*moveStats.groundDetectionRayLength,rayColor);
+    Debug.DrawRay(new Vector2(boxCastOrigin.x+boxCastSize.x/2,boxCastOrigin.y),Vector2.down*moveStats.groundDetectionRayLength,rayColor);
+    Debug.DrawRay(new Vector2(boxCastOrigin.x-boxCastSize.x/2,boxCastOrigin.y-moveStats.groundDetectionRayLength),Vector2.right*boxCastSize.x,rayColor);
+  }
+
+  #endregion
+}
+
+#endregion
 }
