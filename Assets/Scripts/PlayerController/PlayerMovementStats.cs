@@ -21,7 +21,7 @@ public class PlayerMovementStats : ScriptableObject
    public float groundDetectionRayLength=0.02f;
    public float headDetectionRayLength=0.02f;
    [Range(0f,1f)]public float headWidth=0.75f;
-   
+
    [Header("Jump")]
    public float jumpHeight=6.5f;
    [Range(1f,1.1f)]public float jumpHeightCompensationFactor=1.054f;
@@ -31,37 +31,50 @@ public class PlayerMovementStats : ScriptableObject
    [Range(1,5)]public int noOfJumpAllowed=2;
 
 
-   [Header("Jump Cut")]
+   [Header("Jump Cuts")]
    [Range(0.02f,0.3f)]public float timeForUpwardCancel=0.027f;
 
    [Header("Jump Apex")]
    [Range(0.5f,1f)]public float apexThreshold=0.97f;
-   [Range(0.01f,0.1f)]public float apexHangTime=0.075f;
+   [Range(0.01f,1f)]public float apexHangTime=0.075f;
 
    [Header("Jump Buffer")]
    [Range(0f,1f)]public float jumpBufferTime=0.125f;
 
-   [Header("Jump coyote time")]
+   [Header("Jump Coyote Time")]
    [Range(0f,1f)]public float jumpCoyoteTime=0.1f;
 
    [Header("Debug")]
-   public bool debugShowIsGroundedBox;
+  public bool debugShowIsGroundedBox;
+  public bool debugShowHeadBumpedBox;
+   [Header("Jump Visualization Tool")]
+   public bool showWalkJumpArc=false;
+   public bool showRunJumpArc=false;
+   public bool stepOnCollision=true;
+   public bool drawRight=true;
+   [Range(5,100)]public int arcResolutuion=20;
+   [Range(0,500)]public int visualizationStep=90;
+
 
 
    public float gravity{get;private set;}
-
    public float initialJumpVelocity{get;private set;}
    public float adjustedJumpHeight{get;private set;}
+
+
    private void OnValidate() {
       CalculateGravity();
+      
    }
 
    private void OnEnable() {
       CalculateGravity();
+      
    }
-   public void CalculateGravity(){
+
+   private void CalculateGravity(){
       adjustedJumpHeight=jumpHeight*jumpHeightCompensationFactor;
-     gravity=-(2*adjustedJumpHeight)/Mathf.Pow(timeTillJumpApex,2f);
-     initialJumpVelocity=Mathf.Abs(gravity)*timeTillJumpApex;
+      gravity=-(2f*adjustedJumpHeight)/Mathf.Pow(timeTillJumpApex,2f);
+      initialJumpVelocity=Mathf.Abs(gravity)*timeTillJumpApex;
    }
 }
