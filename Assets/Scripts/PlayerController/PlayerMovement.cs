@@ -22,7 +22,10 @@ public class PlayerMovement : MonoBehaviour
 
   private bool isGrounded;
   private bool bumpedHead;
+  
 
+  //jump variables
+  
 
   void Awake()
   {
