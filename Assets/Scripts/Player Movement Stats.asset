@@ -12,31 +12,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad26cbd00cd7f647a97e006ab9d92f7, type: 3}
   m_Name: Player Movement Stats
   m_EditorClassIdentifier: 
-  maxWalkSpeed: 12
+  moveThreshold: 0.25
+  maxWalkSpeed: 8
   groundAcceleration: 5
   groundDeceleration: 20
   airAcceleration: 5
   airDeceleration: 5
-  maxRunSpeed: 20
+  wallJumpMoveAccelaration: 5
+  wallJumpMoveDccelaration: 5
+  maxRunSpeed: 12.7
   GroundLayer:
     serializedVersion: 2
     m_Bits: 64
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
   groundDetectionRayLength: 0.02
   headDetectionRayLength: 0.02
   headWidth: 0.75
-  jumpHeight: 23.64
-  jumpHeightCompensationFactor: 1.054
+  wallDetectionRayLength: 0.125
+  wallRayHeightMultipler: 0.9
+  jumpHeight: 3.5
+  jumpHeightCompensationFactor: 1.0169
   timeTillJumpApex: 0.35
   gravityOnReleaseMultiplier: 2
   maxFallSpeed: 26
   noOfJumpAllowed: 2
+  isDoubleJumpAllowed: 1
+  resetJumpOnWallSlide: 1
   timeForUpwardCancel: 0.027
   apexThreshold: 0.97
   apexHangTime: 0.075
   jumpBufferTime: 0.125
   jumpCoyoteTime: 0.1
+  wallSlideSpeed: 5
+  wallSlideDecelaration: 50
+  wallJumpDirection: {x: 0, y: 0}
+  wallJumpBufferTime: 0
+  wallJumpGravityOnReleaseMultiplier: 0.01
+  dashTime: 0
+  dashSpeed: 1
+  timeBtwDashOnGround: 0
+  resetDashOnWallSlide: 0
+  noOfDashes: 0
+  dashDiagonallyBias: 0
+  dashGravityOnReleaseMultiplier: 0.01
+  dashTimeForUpwardCancel: 0.02
   debugShowIsGroundedBox: 1
   debugShowHeadBumpedBox: 1
+  debugShowWallHitBox: 0
   showWalkJumpArc: 0
   showRunJumpArc: 0
   stepOnCollision: 1
