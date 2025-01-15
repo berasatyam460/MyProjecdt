@@ -51,12 +51,14 @@ public class PlayerMovementStats : ScriptableObject
    public float maxFallSpeed=26f;
    [Range(1,5)]public int noOfJumpAllowed=2;
 
+
    public bool isDoubleJumpAllowed=false;
    #endregion
    #region JUmp OPtion
    
    [Header("Reset Jump Options")]
    public bool resetJumpOnWallSlide=true;
+
 
    [Header("Jump Cuts")]
    [Range(0.02f,0.3f)]public float timeForUpwardCancel=0.027f;
@@ -133,12 +135,14 @@ public class PlayerMovementStats : ScriptableObject
 
    private void OnValidate() {
       CalculateGravity();
+
       stats=this;
       
       }
 
    private void OnEnable() {
       CalculateGravity();
+
       stats=this;
    }
 

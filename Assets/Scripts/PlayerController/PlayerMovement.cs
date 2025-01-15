@@ -24,8 +24,12 @@ public class PlayerMovement : MonoBehaviour
 
   public bool isGrounded;
   private bool bumpedHead;
+
   private bool isTouchingWall;
 
+
+  //jump variables
+  
 
   //jump Vars
   public float verticalVelocity{get;private set;}
